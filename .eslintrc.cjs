@@ -18,7 +18,7 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
-    'prettier/prettier': ['error', { singleQuote: true, semi: false }],
+    'prettier/prettier': ['error', { singleQuote: true, semi: true }],
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',
   },
