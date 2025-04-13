@@ -1,9 +1,8 @@
-import Channel from '../schema/channel.js'
-import crudRepository from './crudRepository.js'
+import Channel from '../schema/channel.js';
+import crudRepository from './crudRepository.js';
 
-const userRepository = {
+const channelRepository = {
   ...crudRepository(Channel), //this would destructure the curdRepository and add all the methods to the userRepository
-
 };
 
-export default channelRepository
+export default channelRepository;

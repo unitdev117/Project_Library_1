@@ -1,5 +1,5 @@
-import bcrypt from 'bcrypt'
-import mongoose from 'mongoose'
+import bcrypt from 'bcrypt';
+import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema(
   {
@@ -33,18 +33,18 @@ const userSchema = new mongoose.Schema(
     },
   },
   { timestamp: true }
-)
+);
 
 userSchema.pre('save', function saveUser(next) {
   // Fixed syntax error in function definition
-  const user = this
-  const SALT = bcrypt.genSaltSync(9)
-  const hasedPassword = bcrypt.hashSync(user.password, SALT)
-  user.password = hasedPassword
-  user.avatar = `https://robohash.org/${user.username}`
-  next()
-})
+  const user = this;
+  const SALT = bcrypt.genSaltSync(9);
+  const hasedPassword = bcrypt.hashSync(user.password, SALT);
+  user.password = hasedPassword;
+  user.avatar = `https://robohash.org/${user.username}`;
+  next();
+});
 
-const User = mongoose.model('User', userSchema)
+const User = mongoose.model('User', userSchema);
 
-export default User
+export default User;

@@ -4,20 +4,20 @@ export const internalErrorResponse = (error) => {
     err: error,
     data: {},
     message: 'Internal server error',
-  }
-}
+  };
+};
 
 export const customErrorResponse = (error) => {
   if (!error.message && !error.explanation) {
-    return internalErrorResponse(error)
+    return internalErrorResponse(error);
   }
   return {
     success: false,
     err: error.explanation,
     data: {},
     message: 'error.message',
-  }
-}
+  };
+};
 
 export const successResponse = (data, message) => {
   return {
@@ -25,5 +25,5 @@ export const successResponse = (data, message) => {
     err: {},
     data,
     message,
-  }
-}
+  };
+};

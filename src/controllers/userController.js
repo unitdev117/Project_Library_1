@@ -1,42 +1,42 @@
-import { StatusCodes } from 'http-status-codes'
+import { StatusCodes } from 'http-status-codes';
 
-import { signUpService, signInService } from '../services/userService.js'
+import { signInService, signUpService } from '../services/userService.js';
 import {
   customErrorResponse,
   internalErrorResponse,
   successResponse,
-} from '../utils/common/responseObject.js'
+} from '../utils/common/responseObject.js';
 
 export const signUp = async (req, res) => {
   try {
-    const user = await signUpService(req.body)
+    const user = await signUpService(req.body);
     return res
       .status(StatusCodes.CREATED)
-      .json(successResponse(user, 'User created successfully'))
+      .json(successResponse(user, 'User created successfully'));
   } catch (error) {
-    console.log('User controller error ', error)
+    console.log('User controller error ', error);
     if (error.statusCode) {
-      return res.status(error.statusCode).json(customErrorResponse(error))
+      return res.status(error.statusCode).json(customErrorResponse(error));
     }
     return res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json(internalErrorResponse(error))
+      .json(internalErrorResponse(error));
   }
-}
+};
 
 export const signIn = async (req, res) => {
-    try {
-        const response = await signInService(req.body);
-        return res
-        .status(StatusCodes.OK)
-        .json(successResponse(response, 'User signed in successfully'));
-    } catch (error) {
-        console.log('User controller error ', error);
-        if (error.statusCode) {
-            return res.status(error.statusCode).json(customErrorResponse(error))
-          }
-          return res
-            .status(StatusCodes.INTERNAL_SERVER_ERROR)
-            .json(internalErrorResponse(error))
+  try {
+    const response = await signInService(req.body);
+    return res
+      .status(StatusCodes.OK)
+      .json(successResponse(response, 'User signed in successfully'));
+  } catch (error) {
+    console.log('User controller error ', error);
+    if (error.statusCode) {
+      return res.status(error.statusCode).json(customErrorResponse(error));
     }
+    return res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json(internalErrorResponse(error));
+  }
 };
