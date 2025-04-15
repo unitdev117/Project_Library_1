@@ -1,17 +1,20 @@
 import { StatusCodes } from 'http-status-codes'; // Import StatusCodes
 import { v4 as uuidv4 } from 'uuid';
 
+import { addEmailToMailQueue } from '../producers/mailQueueProducer.js';
 import channelRepository from '../repositories/channelRepository.js';
 import userRepository from '../repositories/userRepository.js';
 import workspaceRepository from '../repositories/workspaceRepository.js';
+import { workspaceJoinMail } from '../utils/common/mailObject.js';
 import ClientError from '../utils/errors/clientError.js'; // Import ClientError if needed for other errors
 import ValidationError from '../utils/errors/validationError.js'; // Import ValidationError
 
 const isUserAdminOfWorkspace = async (workspace, userId) => {
   return workspace.members.find(
-    (member) => (member.memberId.toString() === userId ||
-      member.memberId._id.toString() === userId
-  ) && member.role === 'admin'
+    (member) =>
+      (member.memberId.toString() === userId ||
+        member.memberId._id.toString() === userId) &&
+      member.role === 'admin'
   );
 };
 
@@ -21,7 +24,6 @@ export const isUserMemberOfWorkspace = (workspace, userId) => {
     return member.memberId._id.toString() === userId;
   });
 };
-
 
 const isChannelAlreadyPartOfWorkspace = (workspace, channelName) => {
   return workspace.channels.find(
@@ -239,6 +241,11 @@ export const addMemberToWorkspaceService = async (
         statusCode: StatusCodes.FORBIDDEN,
       });
     }
+    addEmailToMailQueue({
+      ...workspaceJoinMail(workspace),
+      to: isValidUser.email,
+    });
+
     const response = await workspaceRepository.addMemberToWorkspace(
       workspaceId,
       memberId,

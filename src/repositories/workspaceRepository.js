@@ -106,7 +106,10 @@ const workspaceRepository = {
       });
     }
 
-    const channel = await channelRepository.create({ name: channelName, workspaceId: workspaceId });
+    const channel = await channelRepository.create({
+      name: channelName,
+      workspaceId: workspaceId,
+    });
 
     workspace.channels.push(channel);
     await workspace.save();
